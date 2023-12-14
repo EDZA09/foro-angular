@@ -1,0 +1,93 @@
+<div class="col-lg-12">
+  <h1>{{ page_title }}</h1>
+  <br />
+
+  <div class="alert alert-success col-md-5 mt-3" *ngIf="status == 'success'">
+    Has guardado los cambios correctamente,
+    <a [routerLink]="['/login']">Identificate aquí</a>
+  </div>
+
+  <div class="alert alert-danger col-md-5 mt-3" *ngIf="status == 'error'">
+    Los datos no se han guardado
+  </div>
+
+  <form
+    class="col-md-5 ml-0 pl-0"
+    #userEditForm="ngForm"
+    (ngSubmit)="onSubmit(userEditForm)"
+  >
+    <div class="form-group">
+      <label for="name">Nombre(s)</label>
+      <input
+        type="text"
+        name="name"
+        class="form-control"
+        placeholder="Escribe tu Nombre"
+        #name="ngModel"
+        [(ngModel)]="user.name"
+        required
+        pattern="[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+"
+      />
+      <small
+        *ngIf="!name.valid && name.touched"
+        class="invalid-feedback d-block"
+        >El nombre no es válido</small
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="surname">Apellido(s)</label>
+      <input
+        type="text"
+        name="surname"
+        class="form-control"
+        placeholder="Escribe tus Apellidos"
+        #surname="ngModel"
+        [(ngModel)]="user.surname"
+        required
+        pattern="[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+"
+      />
+      <small
+        *ngIf="!surname.valid && surname.touched"
+        class="invalid-feedback d-block"
+        >El nombre no es válido</small
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="email">Correo Electrónico</label>
+      <input
+        type="email"
+        name="email"
+        class="form-control"
+        placeholder="Ingrese el correo Electrónico, Gmail o Hotmail"
+        #email="ngModel"
+        [(ngModel)]="user.email"
+        required
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+      />
+      <small
+        *ngIf="!email.valid && email.touched"
+        class="invalid-feedback d-block"
+        >El Correo no es válido</small
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="avatar">Avatar</label>
+      <angular-file-uploader
+        [config]="afuConfig"
+        [resetUpload]="resetVar"
+        (ApiResponse)="avatarUpload($event)"
+      >
+      </angular-file-uploader>
+    </div>
+
+    <input
+      type="submit"
+      class="btn btn-success"
+      value="Guardar"
+      [disabled]="userEditForm.invalid"
+    />
+  </form>
+</div>
